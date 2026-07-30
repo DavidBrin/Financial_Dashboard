@@ -34,7 +34,6 @@ export function FinanceRail({ section }: { section: FinanceSection }) {
         ref={railRef}
         role="list"
         aria-label={`${section.title} accounts`}
-        tabIndex={0}
       >
         {section.items.map((item) => (
           <div role="listitem" key={item.id}>

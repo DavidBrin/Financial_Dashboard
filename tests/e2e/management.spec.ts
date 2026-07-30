@@ -36,6 +36,9 @@ test('subscription cancellation sends a request, stages it, and can be undone', 
   if (testInfo.project.name === 'chromium') {
     await page.screenshot({ path: 'docs/evidence/subscriptions-management.png', fullPage: true, scale: 'css' });
   }
+  const undoRequestPromise = page.waitForRequest((nextRequest) => nextRequest.url().includes('/undo'));
   await page.getByRole('button', { name: 'Undo staged cancellation' }).click();
+  const undoRequest = await undoRequestPromise;
+  expect(undoRequest.method()).toBe('POST');
   await expect(adobe.getByRole('button', { name: 'Cancel subscription' })).toBeEnabled();
 });

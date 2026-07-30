@@ -5,7 +5,7 @@ type ToastRegionProps = {
   result: CommandResult | null;
   resourceName?: string;
   canUndo?: boolean;
-  onUndo?: () => void;
+  onUndo?: () => void | Promise<void>;
   onClose: () => void;
 };
 

@@ -9,6 +9,7 @@ import { getSection } from '@/data/demoData';
 import type { FinanceItem, SectionSlug } from '@/domain/finance';
 import { useDemoCommand } from '@/hooks/useDemoCommand';
 import { formatCurrency } from '@/lib/format';
+import { NotFoundPage } from './NotFoundPage';
 
 type SubscriptionFilter = 'active' | 'review' | 'canceled';
 
@@ -42,7 +43,7 @@ export function ManageSectionPage({ slug }: { slug: SectionSlug }) {
     });
   }, [section, query, slug, filter, canceledIds]);
 
-  if (!section) return null;
+  if (!section) return <NotFoundPage />;
   const displayTitle = section.shortTitle?.toLowerCase() ?? slug;
 
   async function submitAction(item: FinanceItem) {
@@ -99,9 +100,15 @@ export function ManageSectionPage({ slug }: { slug: SectionSlug }) {
         <div className="manage-footnote"><span>Mock data · changes are staged locally</span><span>Institution writes require a secure connector service</span></div>
       </div>
       {selected && <ConfirmDialog item={selected} pending={command.status === 'pending'} onConfirm={confirmCancellation} onClose={() => setSelected(null)} />}
-      <ToastRegion result={command.result} resourceName={lastResource?.institution} canUndo={slug === 'subscriptions' && !!lastResource && canceledIds.includes(lastResource.id)} onUndo={() => {
-        if (lastResource) setCanceledIds((ids) => ids.filter((id) => id !== lastResource.id));
-        command.reset();
+      <ToastRegion result={command.result} resourceName={lastResource?.institution} canUndo={slug === 'subscriptions' && !!lastResource && canceledIds.includes(lastResource.id)} onUndo={async () => {
+        if (!lastResource || !command.result) return;
+        const item = lastResource;
+        const cancellationRequestId = command.result.requestId;
+        await command.submit(`/api/v1/subscriptions/${item.id}/cancellation-requests/${cancellationRequestId}/undo`, 'POST', {
+          subscriptionId: item.id,
+          cancellationRequestId,
+        });
+        setCanceledIds((ids) => ids.filter((id) => id !== item.id));
       }} onClose={command.reset} />
     </AppShell>
   );

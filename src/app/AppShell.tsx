@@ -1,5 +1,6 @@
-import type { PropsWithChildren } from 'react';
-import { BarChart3, Bell, BriefcaseBusiness, Building2, CreditCard, Home, Landmark, Menu, Search, ShieldCheck, Sparkles, WalletCards } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import type { MouseEvent, PropsWithChildren } from 'react';
+import { BarChart3, Bell, BriefcaseBusiness, Building2, CreditCard, Home, Landmark, Menu, Search, ShieldCheck, Sparkles, WalletCards, X } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 
 const navigation = [
@@ -15,6 +16,27 @@ const navigation = [
 
 export function AppShell({ children }: PropsWithChildren) {
   const [location] = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuCloseRef = useRef<HTMLButtonElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    menuCloseRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      menuTriggerRef.current?.focus();
+    };
+  }, [menuOpen]);
+
+  function openMenu(event: MouseEvent<HTMLButtonElement>) {
+    menuTriggerRef.current = event.currentTarget;
+    setMenuOpen(true);
+  }
 
   return (
     <div className="app-shell">
@@ -49,7 +71,7 @@ export function AppShell({ children }: PropsWithChildren) {
           <div className="topbar__actions">
             <span className="sync-pill"><i /> All accounts synced</span>
             <button type="button" className="icon-button" aria-label="Notifications"><Bell size={19} /><span className="notification-dot" /></button>
-            <button type="button" className="icon-button mobile-menu" aria-label="Open menu"><Menu size={20} /></button>
+            <button type="button" className="icon-button mobile-menu" aria-label="Open menu" onClick={openMenu}><Menu size={20} /></button>
           </div>
         </header>
         <main id="main-content">{children}</main>
@@ -60,8 +82,24 @@ export function AppShell({ children }: PropsWithChildren) {
             <Icon size={20} aria-hidden="true" /><span>{label}</span>
           </Link>
         ))}
-        <button type="button"><Menu size={20} /><span>More</span></button>
+        <button type="button" onClick={openMenu}><Menu size={20} /><span>More</span></button>
       </nav>
+      {menuOpen && (
+        <div className="mobile-drawer-backdrop" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setMenuOpen(false);
+        }}>
+          <div className="mobile-drawer" role="dialog" aria-modal="true" aria-label="All financial sections">
+            <div className="mobile-drawer__head"><div><span>Navigate</span><strong>Every financial section</strong></div><button ref={menuCloseRef} type="button" aria-label="Close menu" onClick={() => setMenuOpen(false)}><X size={20} /></button></div>
+            <nav aria-label="All sections">
+              {navigation.map(({ href, label, icon: Icon }) => (
+                <Link key={href} href={href} className={location === href ? 'active' : ''} onClick={() => setMenuOpen(false)}>
+                  <Icon size={20} aria-hidden="true" /><span>{label}</span>
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

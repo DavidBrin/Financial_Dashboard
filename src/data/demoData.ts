@@ -38,7 +38,7 @@ export const dashboardSections: FinanceSection[] = [
   },
   {
     slug: 'subscriptions', eyebrow: '03 · Recurring', title: 'Bills & subscriptions', shortTitle: 'Subscriptions',
-    description: 'Recurring commitments, upcoming charges, and anything worth reconsidering.', total: 684.42, totalLabel: 'Monthly recurring',
+    description: 'Recurring commitments, upcoming charges, and anything worth reconsidering.', total: 424.98, totalLabel: 'Monthly recurring',
     items: [
       { id: 'adobe', name: 'Creative Cloud', institution: 'Adobe', value: 59.99, valueLabel: 'Next charge · Aug 3', signal: 'Price increases $5 next cycle', accent: '#D94C45', status: 'attention', renewalDate: '2026-08-03', frequency: 'monthly', details: [{ label: 'Last charge', value: '$54.99' }, { label: 'Annualized', value: '$719.88' }, { label: 'Used', value: 'Yesterday' }] },
       { id: 'netflix', name: 'Premium', institution: 'Netflix', value: 24.99, valueLabel: 'Next charge · Aug 8', signal: 'Used 4 days ago · Shared household', accent: '#B81D24', status: 'healthy', renewalDate: '2026-08-08', frequency: 'monthly', details: [{ label: 'Last charge', value: '$24.99' }, { label: 'Annualized', value: '$299.88' }, { label: 'Active since', value: '2019' }] },
@@ -48,7 +48,7 @@ export const dashboardSections: FinanceSection[] = [
   },
   {
     slug: 'property', eyebrow: '04 · Grounded', title: 'Property & real estate', shortTitle: 'Property',
-    description: 'Homes, mortgages, and the equity quietly accumulating between them.', total: 926000, totalLabel: 'Estimated property value',
+    description: 'Homes, mortgages, and the equity quietly accumulating between them.', total: 1308000, totalLabel: 'Estimated property value',
     items: [
       { id: 'brooklyn-home', name: 'Brooklyn townhome', institution: 'Zillow estimate', value: 926000, valueLabel: 'Estimated market value', signal: '$514,380 equity · 44.5% LTV', trend: 3.1, accent: '#2D7083', status: 'healthy', details: [{ label: 'Mortgage', value: '$411,620' }, { label: 'Monthly payment', value: '$4,820' }, { label: 'Last valuation', value: 'Jul 28' }] },
       { id: 'mortgage', name: '30-year fixed mortgage', institution: 'Better Mortgage', value: -411620, valueLabel: 'Principal remaining', signal: '3.125% APR · Due August 1', accent: '#E77745', status: 'healthy', details: [{ label: 'Principal', value: '$1,420' }, { label: 'Interest', value: '$1,074' }, { label: 'Escrow', value: '$2,326' }] },

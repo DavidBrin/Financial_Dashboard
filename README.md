@@ -48,7 +48,7 @@ To reset the demo completely, open the browser's developer tools for the site, c
 
 This project is eligible for a Vercel Hobby deployment when used as a personal, non-commercial demo. Hobby is subject to Vercel's current fair-use policy and account limits, has no production SLA, and is not appropriate for a real financial product, regulated data, paid/commercial use, or a credential-bearing API. Check the current [Hobby plan documentation](https://vercel.com/docs/plans/hobby) and [fair-use policy](https://vercel.com/docs/limits/fair-use-guidelines) before deploying. Do not add real financial data or credentials.
 
-The committed `vercel.json` preserves Vite assets, leaves `/api/...` unhandled, and sends other extensionless routes to `index.html`. This makes direct visits and refreshes such as `/manage/subscriptions` work while allowing the command gateway to see a genuine API failure instead of rewritten HTML.
+The committed `vercel.json` uses Vercel's standard SPA catch-all rewrite. Static files are served before the rewrite; application paths and unimplemented `/api/...` paths fall back to `index.html`. The command gateway validates the response content type, so rewritten HTML is staged as an unhandled demo request instead of being mistaken for API success. Direct visits and refreshes such as `/manage/subscriptions` therefore work.
 
 ### GitHub dashboard import
 

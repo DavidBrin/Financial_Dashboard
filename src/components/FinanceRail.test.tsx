@@ -38,4 +38,9 @@ describe('FinanceRail', () => {
     await user.click(screen.getByRole('button', { name: /next investments/i }));
     expect(rail.scrollBy).toHaveBeenCalledWith({ behavior: 'smooth', left: 348 });
   });
+
+  it('does not add a redundant tab stop to the list container', () => {
+    render(<FinanceRail section={section} />);
+    expect(screen.getByRole('list', { name: /investments & retirement accounts/i })).not.toHaveAttribute('tabindex');
+  });
 });

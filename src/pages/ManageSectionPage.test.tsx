@@ -40,4 +40,23 @@ describe('subscription management', () => {
     expect(screen.getByText(/request id/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /undo staged cancellation/i })).toBeInTheDocument();
   });
+
+  it('focuses the safe modal action, closes on Escape, and restores trigger focus', async () => {
+    const user = userEvent.setup();
+    render(createAppRouter(['/manage/subscriptions']));
+    const adobe = screen.getByRole('article', { name: /adobe subscription/i });
+    const trigger = within(adobe).getByRole('button', { name: /cancel subscription/i });
+
+    await user.click(trigger);
+
+    expect(screen.getByRole('button', { name: /keep subscription/i })).toHaveFocus();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
+});
+
+it('renders the useful not-found view for an invalid management slug', () => {
+  render(createAppRouter(['/manage/loans']));
+  expect(screen.getByRole('heading', { name: /this account view does not exist/i })).toBeInTheDocument();
 });
