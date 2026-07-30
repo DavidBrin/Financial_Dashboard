@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+
+html { background: var(--fog); color: var(--ink); font-family: var(--font-body); }
+
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+
+button, input, select { font: inherit; }
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+:focus-visible { outline: 3px solid var(--copper); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}

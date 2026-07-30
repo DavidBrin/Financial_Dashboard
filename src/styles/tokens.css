@@ -1,0 +1,17 @@
+:root {
+  --ink: #10363d;
+  --fog: #eef3f1;
+  --porcelain: #fafcfb;
+  --copper: #e77745;
+  --seagrass: #4b7d70;
+  --berry: #b64f5a;
+  --slate: #587078;
+  --line: #d5e0dc;
+  --white: #ffffff;
+  --shadow: 0 18px 50px rgb(16 54 61 / 8%);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --font-display: 'Geologica Variable', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-data: 'Spline Sans Mono Variable', monospace;
+}
